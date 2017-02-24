@@ -1,0 +1,177 @@
+Element is present or not:- 
+
+Boolean isPresent = driver.findElements(By.yourLocator).size() > 0
+----------------------- or ------------------------------------------
+int i=driver.findElements(By.xpath("//section[@id='sign-in']/form/p")).size();
+if(i==0){
+			System.out.println("Element is not present");}
+			else
+			System.out.println("Element is present");
+
+------------------------ or ----------------------------------------------------------
+List<WebElement> linkSearch=  driver.findElements(By.id("linkTag"));
+                    int checkLink=linkSearch.size();
+                    if(checkLink!=0){  //do something you want}
+-------------------------------------------------------------------------------------
+// Store the current window handle
+String winHandleBefore = driver.getWindowHandle();
+
+// Perform the click operation that opens new window
+
+// Switch to new window opened
+for(String winHandle : driver.getWindowHandles()){
+    driver.switchTo().window(winHandle);
+}
+
+// Perform the actions on new window
+
+// Close the new window, if that window no more required
+driver.close();
+
+// Switch back to original browser (first window)
+driver.switchTo().window(winHandleBefore);
+
+// Continue with original browser (first window)
+
+-----------------------------------------------
+//Make sure whether it is an alert pop up or an window pop,If it is another window than it will not be closed by an alert command.Try this if it is an window pop up
+ArrayList wins= new ArrayList(driver.getWindowHandles());
+driver.switchTo.window((String)wins.get(1)).close();
+Thread.sleep(2000);
+driver.switchT0.window((String)wins.get(0));
+//and then further proceed with your scripting
+---------------------------------------------------------------------------------------
+Solution that worked for me to Solve element is not clickable at point(x,y) exception
+1-Updated chrome driver to latest one 2.15
+2-Get the coordinate then click on the link or button
+3-Try to click using Y coordinates
+// Find an element
+WebElement elementToClick = driver.findElement(By.xpath("Your xpath"));
+// Scroll the browser to the element's Y position
+((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+elementToClick.getLocation().y+")");
+(or)
+// Scroll the browser to the element's X position 
+((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+elementToClick.getLocation().x+")");
+// Click the element
+elementToClick.click();
+--------------------------------------------------------------------------------------------------------------------
+
+Screen Shot:-
+
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+
+public class Screenshot {
+
+	public static void captureScreenShot(WebDriver ldriver) {
+
+		// Take screenshot and store as a file format
+		File src = ((TakesScreenshot) ldriver).getScreenshotAs(OutputType.FILE);
+		try {
+			// now copy the  screenshot to desired location using copyFile
+			// method
+
+			FileUtils.copyFile(src, new File("C:/selenium/" + System.currentTimeMillis() + ".png"));
+		}
+
+		catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}
+
+-----------------------------------------------
+to call the captureScreenShot(WebDriver ldriver) method:- 
+Screenshot.captureScreenShot(driver);
+---------------------------------------------------------------------------------------------------------------------
+copy all the screen shot to word Doc:-
+
+http://stackoverflow.com/questions/2494507/how-to-insert-image-into-word-document-using-java
+http://stackoverflow.com/questions/17745466/insert-picture-in-word-document
+
+------------------------------------------------------------------------------------------------------------------------------
+Implicit wait:-
+
+Q:- This is one of the interview questions that what is the default timeout in Selenium is.
+
+Answer- Default timeout is ZERO.
+
+driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+---------------------------------------------------------------------------------------------------------------------------
+Explicit wait:-
+
+http://learn-automation.com/explicit-wait-in-selenium-webdriver/
+
+// Create object of WebDriverWait class
+
+WebDriverWait wait=new WebDriverWait(driver,20);
+
+// Wait till the element is not visible
+
+WebElement element=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("ur xpath here")));
+------------------------------------------------------------------------------------------------------------------------------------
+Fluentwait:-
+http://learn-automation.com/fluentwait-in-selenium-webdriver/
+
+Synchronization using Fluent concept:-
+http://learn-automation.com/best-way-to-handle-synchronization-in-selenium-webdriver/
+package utility;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import page_Object_Model.BaseClass;
+
+public class Fluentwait {
+	public static WebDriver driver;
+
+	public static WebElement isElementPresnt(WebElement element, int time) {
+
+		WebElement ele = null;
+		for (int i = 0; i < time; i++) {
+			try {
+				ele = element;
+				break;
+			} catch (Exception e) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					System.out.println("Waiting for element to appear on DOM");
+				}
+			}
+		}
+		return ele;
+	}
+
+}
+---------------------------------------------------------------------------------------------------------------------------------
+
+AutoIt
+https://www.autoitscript.com/site/autoit/
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+Export project as jar file:-
+http://learn-automation.com/eclipse-tips-and-tricks/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
